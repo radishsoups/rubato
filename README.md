@@ -1,5 +1,3 @@
-The content below is an example project proposal / requirements document. Replace the text below the lines marked "__TODO__" with details specific to your project. Remove the "TODO" lines.
-
 # Rubato
 
 ## Overview
@@ -22,7 +20,7 @@ An example user:
 {
   username: "radishsoups",
   hash: // a password hash,
-  playlists: // an array of references to List documents
+  playlists: // an array of references to playlist documents
 }
 ```
 
@@ -31,7 +29,7 @@ An example playlist with Embedded songs:
 ```javascript
 {
   user: // a reference to a User object
-  name: "Daytime Tracks",
+  name: // title of playlist
   items: [
     { name: "song1", genre: "lofi", artist: "artist1"},
     { name: "song2", genre: "classical", artist: "artist2"},
@@ -39,10 +37,8 @@ An example playlist with Embedded songs:
 }
 ```
 
-
 ## [Link to Commented First Draft Schema](db.mjs) 
-
-(__TODO__: create a first draft of your Schemas in db.mjs and link to it)
+[Draft Schema](db.mjs)
 
 ## Wireframes
 
@@ -58,9 +54,9 @@ An example playlist with Embedded songs:
 
 ![register](documentation/register.png)
 
-/search - page for searching based playlists based on title, artist, or genre
+/edit - page for editing playlists (adding / deleting songs)
 
-![search](documentation/search.png)
+![search](documentation/edit.png)
 
 ## Site map
 
@@ -68,7 +64,7 @@ An example playlist with Embedded songs:
 
 ## User Stories or Use Cases
 
-1. as non-registered user, I can register with a Google account within the site
+1. as non-registered user, I can register within the site
 2. as a user, I can log in to the site
 3. as a user, I can create and share a new playlist
 4. as a user, I can view all of the playlists I have created 
@@ -81,7 +77,7 @@ An example playlist with Embedded songs:
     * I'm going to be using Spotify's API to search for songs and artists
     * This will also keep track of genres and potentially be able to search user playlists on Spotify
 * (3 points) User Authentication
-    * I'm going to use Passport.js for user authentication and login with Google
+    * I'm going to use Passport.js for user authentication and login 
 * (2 points) Hosting on Vercel
     * Connect GitHub account to Vercel in order to host the site (rather than uploading onto NYU's i6 server)
 
@@ -90,11 +86,9 @@ An example playlist with Embedded songs:
 
 ## [Link to Initial Main Project File](app.mjs) 
 
-(__TODO__: create a skeleton Express application with a package.json, app.mjs, views folder, etc. ... and link to your initial app.mjs)
+[Main project file](app.mjs)
 
 ## Annotations / References Used
-
-(__TODO__: list any tutorials/references/etc. that you've based your code off of)
 
 1. [spotify api docs](https://developer.spotify.com/documentation/web-api)
 2. [passport.js authentication docs](http://passportjs.org/docs)
