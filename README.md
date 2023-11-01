@@ -46,25 +46,25 @@ An example playlist with Embedded songs:
 
 ## Wireframes
 
-(__TODO__: wireframes for all of the pages on your site; they can be as simple as photos of drawings or you can use a tool like Balsamiq, Omnigraffle, etc.)
+/home - landing page that displays all playlists
 
-/list/create - page for creating a new shopping list
+![home](documentation/home.png)
 
-![list create](documentation/list-create.png)
+/create - page for creating a new playlist
 
-/list - page for showing all shopping lists
+![create](documentation/create.png)
 
-![list](documentation/list.png)
+/register - page for registration or log in
 
-/list/slug - page for showing specific shopping list
+![register](documentation/register.png)
 
-![list](documentation/list-slug.png)
+/search - page for searching based playlists based on title, artist, or genre
+
+![search](documentation/search.png)
 
 ## Site map
 
-(__TODO__: draw out a site map that shows how pages are related to each other)
-
-Here's a [complex example from wikipedia](https://upload.wikimedia.org/wikipedia/commons/2/20/Sitemap_google.jpg), but you can create one without the screenshots, drop shadows, etc. ... just names of pages and where they flow to.
+![search](documentation/map.png)
 
 ## User Stories or Use Cases
 
@@ -77,7 +77,6 @@ Here's a [complex example from wikipedia](https://upload.wikimedia.org/wikipedia
 
 ## Research Topics
 
-3 pts: Passport.js for user login with Google
 * (5 points) Spotify Web API
     * I'm going to be using Spotify's API to search for songs and artists
     * This will also keep track of genres and potentially be able to search user playlists on Spotify
