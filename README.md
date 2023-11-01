@@ -8,19 +8,19 @@ The content below is an example project proposal / requirements document. Replac
 
 (__TODO__: a brief one or two paragraph, high-level description of your project)
 
-Remembering what to buy at the grocery store is waaaaay too difficult. Also, shopping for groceries when you're hungry leads to regrettable purchases. Sooo... that's where Shoppy Shoperson comes in!
+Spotify's Blend playlists lets you share your favorite song with your friends based on your and their music preferences. However, users cannot manually add or remove songs in these playlists, which defeats the purpose of a collaborative playlist and restricts the contents of the playlist to what Spotify wants to add.
 
-Shoppy Shoperson is a web app that will allow users to keep track of multiple grocery lists. Users can register and login. Once they're logged in, they can create or view their grocery list. For every list that they have, they can add items to the list or cross off items.
+Rubato is a web app that will allow users to create playlists and share music with others. Users can register and login, and once they're logged in, they can view the playlists they have shared. In each playlist, they can add or delete songs.
 
 
 ## Data Model
 
 (__TODO__: a description of your application's data and their relationships to each other) 
 
-The application will store Users, Lists and Items
+The application will store Users, Playlists and Songs
 
-* users can have multiple lists (via references)
-* each list can have multiple items (by embedding)
+* users can have multiple playlists (via references)
+* each list can have multiple songs (by embedding)
 
 (__TODO__: sample documents)
 
@@ -28,9 +28,9 @@ An Example User:
 
 ```javascript
 {
-  username: "shannonshopper",
+  username: "radishsoups",
   hash: // a password hash,
-  lists: // an array of references to List documents
+  playlists: // an array of references to List documents
 }
 ```
 
@@ -39,12 +39,11 @@ An Example List with Embedded Items:
 ```javascript
 {
   user: // a reference to a User object
-  name: "Breakfast foods",
+  name: "Daytime Tracks",
   items: [
-    { name: "pancakes", quantity: "9876", checked: false},
-    { name: "ramen", quantity: "2", checked: true},
+    { name: "song1", genre: "lofi", artist: "artist1"},
+    { name: "song2", genre: "classical", artist: "artist2"},
   ],
-  createdAt: // timestamp
 }
 ```
 
