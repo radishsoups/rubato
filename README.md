@@ -2,14 +2,14 @@
 
 ## Overview
 
-Spotify's Blend playlists lets you share your favorite song with your friends based on your and their music preferences. However, users cannot manually add or remove songs in these playlists, which defeats the purpose of a collaborative playlist and restricts the contents of the playlist to what Spotify wants to add.
+Spotify's Blend playlists let you share your favorite songs with your friends based on your and their music preferences. However, users cannot manually add or remove songs in these playlists, which defeats the purpose of a collaborative playlist and restricts the contents of the playlist to what Spotify wants to add.
 
 Rubato is a web app that will allow users to create playlists and share music with others. Users can register and login, and once they're logged in, they can view the playlists they have shared. In each playlist, they can add or delete songs.
 
 
 ## Data Model
 
-The application will store users, playlists and songs. 
+The application will store users, playlists, and songs. 
 
 * users can have multiple playlists (via references)
 * each list can have multiple songs (by embedding)
@@ -50,7 +50,7 @@ An example playlist with Embedded songs:
 
 ![create](documentation/create.png)
 
-/register - page for registration or log in
+/register - page for registration or login
 
 ![register](documentation/register.png)
 
@@ -64,7 +64,7 @@ An example playlist with Embedded songs:
 
 ## User Stories or Use Cases
 
-1. as non-registered user, I can register within the site
+1. as a non-registered user, I can register on the site
 2. as a user, I can log in to the site
 3. as a user, I can create and share a new playlist
 4. as a user, I can view all of the playlists I have created 
