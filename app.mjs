@@ -1,5 +1,8 @@
+import './config.mjs';
 import express from 'express'
 import path from 'path'
+import './db.mjs';
+import mongoose from 'mongoose';
 import { fileURLToPath } from 'url';
 
 const app = express();
@@ -13,7 +16,8 @@ const User = mongoose.model('User');
 const Playlist = mongoose.model('Playlist');
 
 app.get('/', (req, res) => {
-    // home page
+    const test = {hello: 'hello world'};
+    res.render("home", test);
 });
 
 app.get('/register', (req, res) => {

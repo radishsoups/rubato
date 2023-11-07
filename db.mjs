@@ -3,12 +3,6 @@ import mongoose from 'mongoose';
 mongoose.connect(process.env.DSN);
 
 // define the data in our collection
-const User = new mongoose.Schema({
-    username: String,
-    password: String,
-    playlist: [Playlist]
-});
-
 const Playlist = new mongoose.Schema({
     username: String,
     name: String,
@@ -17,6 +11,12 @@ const Playlist = new mongoose.Schema({
         artist: String,
         genre: String
     }]
+});
+
+const User = new mongoose.Schema({
+    username: String,
+    password: String,
+    playlist: [Playlist]
 });
 
 // "register" it so that mongoose knows about it
