@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 
-console.log(process.env.DSN);
 mongoose.connect(process.env.DSN);
 
 // define the data in our collection
