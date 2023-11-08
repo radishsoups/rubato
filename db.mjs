@@ -1,15 +1,15 @@
 import mongoose from 'mongoose';
 
+console.log(process.env.DSN);
 mongoose.connect(process.env.DSN);
 
 // define the data in our collection
 const Playlist = new mongoose.Schema({
     username: String,
-    name: String,
+    playlistName: String,
     songs: [{
         title: String,
         artist: String,
-        genre: String
     }]
 });
 
