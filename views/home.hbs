@@ -1,7 +1,23 @@
 <div id="container">
     <header>
         <h1>Rubato</h1>
-        {{hello}}
     </header>
-</div>
+
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/create">Create Playlist</a></li>
+        </ul>
+    </nav>
+
+    <table id="table">
+        <tr>
+            <th>Playlist Name</th>
+        </tr>
+        {{#each playlists}}
+        <tr>
+            <td>{{playlistName}}</td>
+        </tr>
+        {{/each}}
+    </table>
 </div>

@@ -9,15 +9,27 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// set up express static
+app.use(express.static(path.join(__dirname, 'public')));
+
 // configure templating to hbs
 app.set('view engine', 'hbs');
 
+// body parser (req.body)
+app.use(express.urlencoded({ extended: false }));
+
+// database collections
 const User = mongoose.model('User');
 const Playlist = mongoose.model('Playlist');
 
-app.get('/', (req, res) => {
-    const test = {hello: 'hello world'};
-    res.render("home", test);
+app.get('/', async (req, res) => {
+    const key = {};
+
+    Playlist.find(key)
+        .then(playlists => {
+            res.render('home', { playlists });
+        })
+        .catch(() => res.status(500).send("Server Error"));
 });
 
 app.get('/register', (req, res) => {
@@ -28,12 +40,30 @@ app.post('/register', (req, res) => {
     // handle form data for registering and logging in
 });
 
+app.get('/spotify-profile-demo/index.html', (req, res) => {
+    
+}); 
+
 app.get('/create', (req, res) => {
-    // create playlists  here
+    // created playlists  here
+    res.render('create', {});
 });
 
-app.post('/create', (req, res) => {
+app.post('/create', async (req, res) => {
     // handle form data for creating playlists
+    const title = req.body.title;
+    const artist = req.body.artist;
+    const songs = [{ title, artist }];
+
+    const p = new Playlist({
+        playlistName: req.body.playlist,
+        songs: songs
+    });
+
+    // saving review to database
+    p.save()
+        .then(() => res.redirect('/'))
+        .catch(() => res.status(500).send("Server Error"));
 });
 
 app.get('/edit', (req, res) => {
