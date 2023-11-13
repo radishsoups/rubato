@@ -1,0 +1,25 @@
+<div id="edit">
+    <form method='POST' action=''>
+        <label for="artist">Get Artist Albums</label>
+        <input type='text' name='artist' value=''>
+        <input type='submit' value='Submit'>
+    </form>
+
+    {{#each found}}
+    <table id="table">
+        <tr>
+            <th>Albums</th>
+        </tr>
+        <tr>
+            <td>{{this.artistName}}</td>
+            <td>
+                <ol>
+                    {{#each this.albums}}
+                    <li>{{this}}</li>
+                    {{/each}}
+                </ol>
+            </td>
+        </tr>
+        {{/each}}
+    </table>
+</div>

@@ -1,23 +1,17 @@
-<div id="container">
-    <header>
-        <h1>Rubato</h1>
-    </header>
-
-    <nav>
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/create">Create Playlist</a></li>
-        </ul>
-    </nav>
-
-    <table id="table">
-        <tr>
-            <th>Playlist Name</th>
-        </tr>
-        {{#each playlists}}
-        <tr>
-            <td>{{playlistName}}</td>
-        </tr>
-        {{/each}}
-    </table>
-</div>
+{{#each titles}}
+<table id="table">
+    <tr>
+        <th>Playlist Name</th>
+        <th>Artists</th>
+    </tr>
+    <tr>
+        <td>{{playlistName}}</td>
+        <td>
+            {{#each info}}
+            <a href={{this.link}}>{{this.artist}}</a>
+            <br>
+            {{/each}}
+        </td>
+    </tr>
+    {{/each}}
+</table>
