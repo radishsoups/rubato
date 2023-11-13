@@ -1,12 +1,17 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "index.mjs",
-        "use": "@now/node"
-      }
-    ],
-
+  "version": 2,
+  "builds": [
+    {
+      "src": "index.mjs",
+      "use": "@now/node"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api"
+    }
+  ],
   "routes": [
     {
       "src": "/(.*)",
