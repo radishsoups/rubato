@@ -42,6 +42,7 @@ spotifyApi.clientCredentialsGrant().then(
 );
 
 app.get('/', async (req, res) => {
+    // for vercel
     res.setHeader('Content-Type', 'text/html');
     res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
     await Artist.deleteMany({});
