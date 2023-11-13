@@ -1,17 +1,25 @@
-{{#each titles}}
-<table id="table">
-    <tr>
-        <th>Playlist Name</th>
-        <th>Artists</th>
-    </tr>
-    <tr>
-        <td>{{playlistName}}</td>
-        <td>
-            {{#each info}}
-            <a href={{this.link}}>{{this.artist}}</a>
-            <br>
+<div class="row justify-content-center">
+    <div class="col-auto">
+        <table class="table" class="table-primary" class="table table-bordered">
+            {{#each titles}}
+            <thead>
+                <tr class="table-primary">
+                    <th scope="col">Playlist</th>
+                    <th scope="col">Artists</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{playlistName}}</td>
+                    <td>
+                        {{#each info}}
+                        <a href={{this.link}}>{{this.artist}}</a>
+                        <br>
+                        {{/each}}
+                    </td>
+                </tr>
+            </tbody>
             {{/each}}
-        </td>
-    </tr>
-    {{/each}}
-</table>
+        </table>
+    </div>
+</div>
