@@ -63,7 +63,6 @@ spotifyApi.clientCredentialsGrant().then(
 
 app.get('/', async (req, res) => {
     await Artist.deleteMany({});
-
     const key = {};
     const titles = [];
     const noDupes = [];
@@ -85,7 +84,6 @@ app.get('/', async (req, res) => {
                     }
                 }
             });
-
             res.render('home', { titles });
         })
         .catch(() => res.status(500).send("Server Error"));
@@ -200,6 +198,15 @@ app.post('/filter', async (req, res) => {
                 res.redirect('/filter');
             });
         });
+});
+
+app.get('/logout', function (req, res, next) {
+    req.logout(function (err) {
+        if (err) { return next(err); }
+        req.session.destroy();
+        curUser = undefined;
+        res.redirect('/');
+    });
 });
 
 app.listen(process.env.PORT || 3000);
