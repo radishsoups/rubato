@@ -5,6 +5,10 @@ import path from 'path'
 import './db.mjs';
 import mongoose from 'mongoose';
 import { fileURLToPath } from 'url';
+import passport from 'passport';
+import LocalStrategy from 'passport-local';
+import flash from 'connect-flash';
+import session from 'express-session'
 
 // setting up express
 const app = express();
@@ -21,8 +25,26 @@ const User = mongoose.model('User');
 const Playlist = mongoose.model('Playlist');
 const Artist = mongoose.model('Artist');
 
+// setting up passport.js
+passport.use(new LocalStrategy(User.authenticate()));
+let curUser;
+
+const sessionOptions = {
+    secret: 'secret cookie thang (store this elsewhere!)',
+    resave: true,
+    saveUninitialized: true
+};
+app.use(session(sessionOptions));
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+
+// use static serialize and deserialize of model for passport session support
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 // setting up spotify api
-// https://www.npmjs.com/package/spotify-web-api-node#fetch-music-metadata
 const spotifyApi = new SpotifyWebApi({
     clientId: 'e5445e19f4ab47c49c125f3e81bd2fb3',
     clientSecret: '643dc358b4a64d66a8c6a98380ca07be'
@@ -31,8 +53,6 @@ const spotifyApi = new SpotifyWebApi({
 // retrieve spotify access token
 spotifyApi.clientCredentialsGrant().then(
     function (data) {
-        // console.log('The access token expires in ' + data.body['expires_in']);
-        // console.log('The access token is ' + data.body['access_token']);
         const token = data.body['access_token'];
         spotifyApi.setAccessToken(token);
     },
@@ -51,20 +71,21 @@ app.get('/', async (req, res) => {
     Playlist.find(key)
         .then(playlists => {
             playlists.map(item => {
-                if (noDupes.includes(item.playlistName) === false) {
-                    noDupes.push(item.playlistName)
-                    const plName = item.playlistName;
-                    const obj = { 'playlistName': plName, 'info': [item.artists] };
-                    titles.push(obj)
-                }
-                else {
-                    const target = titles.filter(x => x.playlistName === item.playlistName);
-                    const obj = item.artists;
-                    target[0].info.push(obj)
+                if (item.username === curUser) {
+                    if (noDupes.includes(item.playlistName) === false) {
+                        noDupes.push(item.playlistName)
+                        const plName = item.playlistName;
+                        const obj = { 'playlistName': plName, 'info': [item.artists] };
+                        titles.push(obj)
+                    }
+                    else {
+                        const target = titles.filter(x => x.playlistName === item.playlistName);
+                        const obj = item.artists;
+                        target[0].info.push(obj)
+                    }
                 }
             });
 
-            // titles.map(x => console.log(x))
             res.render('home', { titles });
         })
         .catch(() => res.status(500).send("Server Error"));
@@ -72,12 +93,38 @@ app.get('/', async (req, res) => {
 
 app.get('/register', (req, res) => {
     // registration page
-    res.send('Register / Login page goes here');
+    res.render('register', {});
 });
 
-app.post('/register', (req, res) => {
-    // handle form data for registering and logging in
+app.post('/register', function (req, res, next) {
+    User.register(new User({ username: req.body.username }), req.body.password, function (err) {
+        if (err) {
+            console.log('error while user register!', err);
+            return next(err);
+        }
+        res.redirect('/');
+    });
 });
+
+app.get('/login', function (req, res) {
+    try {
+        res.render('login', { user: req.user, message: 'error' });
+    }
+    catch (e) {
+        res.send('Incorrect password');
+    }
+});
+
+app.post('/login', passport.authenticate('local', { session: false, failureRedirect: '/login', failureFlash: true }), function (req, res) {
+    try {
+        curUser = req.user.username;
+        res.redirect('/');
+    }
+    catch (e) {
+        res.send('Incorrect password');
+    }
+});
+
 
 app.get('/create', (req, res) => {
     // created playlists  here
@@ -96,6 +143,7 @@ app.post('/create', async (req, res) => {
             link = data.body.artists.items[0]['external_urls'].spotify;
 
             const p = new Playlist({
+                username: curUser,
                 playlistName: req.body.playlist,
                 artists: { artist: req.body.artist, link: link }
             });

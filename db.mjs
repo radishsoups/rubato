@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import passportLocalMongoose from 'passport-local-mongoose';
 
 mongoose.connect(process.env.DSN);
 
@@ -12,13 +13,14 @@ const Playlist = new mongoose.Schema({
 const User = new mongoose.Schema({
     username: String,
     password: String,
-    playlist: [Playlist]
 });
 
 const Artist = new mongoose.Schema({
     artistName: String,
     albums: [String]
 });
+
+User.plugin(passportLocalMongoose);
 
 // "register" it so that mongoose knows about it
 mongoose.model('User', User);
