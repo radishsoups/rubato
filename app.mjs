@@ -62,6 +62,7 @@ spotifyApi.clientCredentialsGrant().then(
 );
 
 app.get('/', async (req, res) => {
+    console.log(curUser)
     await Artist.deleteMany({});
     const key = {};
     const titles = [];
