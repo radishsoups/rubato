@@ -97,16 +97,17 @@ app.get('/register', (req, res) => {
 app.post('/register', function (req, res, next) {
     User.register(new User({ username: req.body.username }), req.body.password, function (err) {
         if (err) {
-            console.log('error while user register!', err);
-            return next(err);
+            res.render('register', { message: 'User already exists, please try again.' });
         }
-        res.redirect('/');
+        else {
+            res.render('register', { message: 'User registered! Please log in.' });
+        }
     });
 });
 
 app.get('/login', function (req, res) {
     try {
-        res.render('login', { user: req.user, message: 'error' });
+        res.render('login', { user: req.user });
     }
     catch (e) {
         res.send('Incorrect password');
@@ -116,10 +117,10 @@ app.get('/login', function (req, res) {
 app.post('/login', passport.authenticate('local', { session: false, failureRedirect: '/login', failureFlash: true }), function (req, res) {
     try {
         curUser = req.user.username;
-        res.redirect('/');
+        res.render('home', { message: curUser });
     }
     catch (e) {
-        res.send('Incorrect password');
+        res.render('login', { message: 'Incorrect login, please try again.' });
     }
 });
 
