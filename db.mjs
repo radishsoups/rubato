@@ -20,9 +20,17 @@ const Artist = new mongoose.Schema({
     albums: [String]
 });
 
+const Related = new mongoose.Schema({
+    name: String,
+    artistName: String,
+    genre: String,
+    link: String
+});
+
 User.plugin(passportLocalMongoose);
 
 // "register" it so that mongoose knows about it
 mongoose.model('User', User);
 mongoose.model('Artist', Artist);
+mongoose.model('Related', Related);
 mongoose.model('Playlist', Playlist);

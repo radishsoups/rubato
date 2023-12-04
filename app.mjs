@@ -24,6 +24,7 @@ app.set('view engine', 'hbs');
 const User = mongoose.model('User');
 const Playlist = mongoose.model('Playlist');
 const Artist = mongoose.model('Artist');
+const Related = mongoose.model('Related');
 
 // setting up passport.js
 passport.use(new LocalStrategy(User.authenticate()));
@@ -62,7 +63,6 @@ spotifyApi.clientCredentialsGrant().then(
 );
 
 app.get('/', async (req, res) => {
-    console.log(curUser)
     await Artist.deleteMany({});
     const key = {};
     const titles = [];
@@ -73,15 +73,15 @@ app.get('/', async (req, res) => {
             playlists.map(item => {
                 if (item.username === curUser) {
                     if (noDupes.includes(item.playlistName) === false) {
-                        noDupes.push(item.playlistName)
+                        noDupes.push(item.playlistName);
                         const plName = item.playlistName;
                         const obj = { 'playlistName': plName, 'info': [item.artists] };
-                        titles.push(obj)
+                        titles.push(obj);
                     }
                     else {
                         const target = titles.filter(x => x.playlistName === item.playlistName);
                         const obj = item.artists;
-                        target[0].info.push(obj)
+                        target[0].info.push(obj);
                     }
                 }
             });
@@ -118,17 +118,21 @@ app.get('/login', function (req, res) {
 app.post('/login', passport.authenticate('local', { session: false, failureRedirect: '/login', failureFlash: true }), function (req, res) {
     try {
         curUser = req.user.username;
-        res.render('home', { message: curUser });
+        res.redirect('/');
     }
     catch (e) {
         res.render('login', { message: 'Incorrect login, please try again.' });
     }
 });
 
-
 app.get('/create', (req, res) => {
     // created playlists  here
-    res.render('create', {});
+    if (curUser !== undefined) {
+        res.render('create', {});
+    }
+    else {
+        res.send('Please register or login.');
+    }
 });
 
 app.post('/create', async (req, res) => {
@@ -165,8 +169,9 @@ app.get('/filter', async (req, res) => {
     const key = {};
 
     Artist.find(key)
-        .then(found => {
+        .then(async function (found) {
             res.render('filter', { found });
+            await Artist.deleteMany({});
         })
         .catch(() => res.status(500).send("Server Error"));
 });
@@ -199,6 +204,46 @@ app.post('/filter', async (req, res) => {
 
                 res.redirect('/filter');
             });
+        });
+});
+
+app.get('/related', (req, res) => {
+    // search related artists here
+    const key = {};
+
+    Related.find(key)
+        .then(async function (found) {
+            res.render('related', { found });
+            await Related.deleteMany({});
+        })
+        .catch(() => res.status(500).send("Server Error"));
+});
+
+app.post('/related', async (req, res) => {
+    await Related.deleteMany({});
+
+    spotifyApi
+        .searchArtists(req.body.artist)
+        .then(data => {
+            const link = data.body.artists.items[0]['external_urls'].spotify;
+            const artistID = link.split('/')[4];
+            const arr = [];
+
+            spotifyApi.getArtistRelatedArtists(artistID)
+                .then(data => {
+                    const list = data.body.artists;
+                    list.map(artist => {
+                        const obj = new Related({
+                            "name": req.body.artist,
+                            "artistName": artist.name,
+                            "genre": artist.genres[0],
+                            "link": artist.external_urls.spotify
+                        });
+                        obj.save();
+                    });
+
+                    res.redirect('/related');
+                });
         });
 });
 

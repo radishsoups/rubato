@@ -1,23 +1,22 @@
 <div class="row justify-content-center align-middle">
     <div class="col-auto">
-        <h1 class="fs-4 mt-3 mb-3">Get Artist Albums</h1>
+        <h1 class="fs-4 mt-3 mb-3">Get Related Artists</h1>
         <form method='POST' action=''>
             <input type='text' name='artist' placeholder='Artist name' value="">
             <input type='submit' value='Search'>
         </form>
 
-        {{#each found}}
         <table class="table mt-3">
             <tr>
-                <th>Albums for {{this.artistName}}</th>
+                <th>Similar artists to {{found.1.name}}</th>
             </tr>
+            {{#each found}}
             <tr>
                 <td>
-                    <ol>
-                        {{#each this.albums}}
-                        <li>{{this}}</li>
-                        {{/each}}
-                    </ol>
+                    <a href={{this.link}}>{{this.artistName}}</a>
+                </td>
+                <td>
+                    {{this.genre}}
                 </td>
             </tr>
             {{/each}}
