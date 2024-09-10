@@ -2,9 +2,9 @@
 
 ## Overview
 
-Spotify's Blend playlists let you share your favorite songs with your friends based on your and their music preferences. However, users cannot manually add or remove songs in these playlists, which defeats the purpose of a collaborative playlist and restricts the contents of the playlist to what Spotify wants to add.
+Spotify's Blend playlists let you share your favorite songs with your friends based on your and their music preferences. However, users cannot manually add or remove songs in these playlists, which defeats the purpose of a collaborative playlist and restricts the playlist's contents to what Spotify wants to add.
 
-Rubato is a web app that will allow users to create playlists and share music with others. Users can register and login, and once they're logged in, they can view the playlists they have shared. In each playlist, they can add or delete songs.
+Rubato is a web app that allows users to create playlists and share music with others. Users can register and log in, and once they're logged in, they can view the playlists they have shared. In each playlist, they can add or delete songs.
 
 
 ## Data Model
